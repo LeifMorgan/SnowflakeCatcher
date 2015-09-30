@@ -1,11 +1,25 @@
+Snowflake [] rainstorm;
 void setup()
 {
   size(400,400);
+  fill(0);
   background(0);
+  rainstorm = new Snowflake[30];
+  for(int i = 0; i < rainstorm.length; i++){
+    rainstorm[i] = new Snowflake();
+
+  }
 
 }
 void draw()
 {
+  for(int i = 0; i < rainstorm.length;i++){
+    rainstorm[i].erase();
+    rainstorm[i].lookDown();
+    rainstorm[i].move();
+    rainstorm[i].wrap();
+    rainstorm[i].show();
+  }
   int rX = 10;
   int rY = 240;
   stroke(1);
@@ -35,7 +49,7 @@ void draw()
 void mouseDragged()
 {
   fill(51,0,25);
-  stroke(51,0,25);
+  stroke(1);
   rect(mouseX,mouseY,15,15);
 }
 
@@ -48,7 +62,7 @@ class Snowflake
   Snowflake()
   {
     x = (int)(Math.random()*400);
-    y = (int)(Math.random()*10);
+    y = (int)(Math.random()*400-200);
     isMoving = true; //class member variable initializations
   }
   void show()
@@ -60,12 +74,14 @@ class Snowflake
   {
     if(y >= 0 && y <=400 && get(x,y+7) == color(1)){
       isMoving = false;
+    } else{
+      isMoving = true;
     }
   }
   void erase()
   {
     fill(0);
-    ellipse(mouseX,mouseY,10,10);
+    ellipse(x,y,14,14);
   }
   void move()
   {
@@ -75,7 +91,9 @@ class Snowflake
   }
   void wrap()
   {
-    //your code here
+    if(y >=380)
+      y = 0;
+      x = (int)(Math.random()*400);
   }
 }
 
